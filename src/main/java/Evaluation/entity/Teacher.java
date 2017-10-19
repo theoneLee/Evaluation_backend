@@ -1,12 +1,18 @@
 package Evaluation.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Lee on 2017/10/17 0017.
  */
+@Entity
 public class Teacher {
+    @Id
+    @GeneratedValue
     private Integer id;
     protected String tid;//工号
     protected String phone;

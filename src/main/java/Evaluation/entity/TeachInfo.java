@@ -1,5 +1,6 @@
 package Evaluation.entity;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,12 +8,16 @@ import java.util.List;
 /**
  * Created by Lee on 2017/10/17 0017.
  */
+@Entity
 public class TeachInfo {
+    @Id
+    @GeneratedValue
     private Integer id;
     private String position;
     private Date date;
 
-    private Teacher teacher;//授课老师信息
+    private String teacherName;//授课老师
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.LAZY)
     private List<Comment> commentList=new ArrayList<Comment>();//评分列表，单向一对多
 
     public Integer getId() {
@@ -39,12 +44,12 @@ public class TeachInfo {
         this.date = date;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public List<Comment> getCommentList() {

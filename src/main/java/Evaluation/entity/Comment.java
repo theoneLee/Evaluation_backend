@@ -1,9 +1,16 @@
 package Evaluation.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Created by Lee on 2017/10/17 0017.
  */
+@Entity
 public class Comment {
+    @Id
+    @GeneratedValue
     private Integer id;
 
     private String commentTeacherId;//评课教师工号
