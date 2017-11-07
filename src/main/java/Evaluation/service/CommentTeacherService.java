@@ -17,11 +17,15 @@ public class CommentTeacherService {
     private CommentTeacherDao commentTeacherDao;
 
 
-    public void saveCommentTeacher(CommentTeacher teacher) {
+    public void saveCommentTeacher(CommentTeacher teacher) throws Exception {
         //todo 在controller中转化json为对象时可以直接把关联关系也建立么？
 //        if (teacher.getList()!=null){
 //            //建立关联
 //        }
+        if (commentTeacherDao.findByTid(teacher.getTid())!=null){
+            throw new Exception("存在相同tid");
+        }
+
         commentTeacherDao.save(teacher);
     }
 
@@ -33,6 +37,7 @@ public class CommentTeacherService {
 
     public CommentTeacher getCommentTeacherByTid(String tid) {
         CommentTeacher teacher=commentTeacherDao.findByTid(tid);
+        System.out.println(teacher);
         return teacher;
     }
 

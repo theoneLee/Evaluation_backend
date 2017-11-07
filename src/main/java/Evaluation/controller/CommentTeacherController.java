@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ public class CommentTeacherController {
      * @return
      */
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Response saveCommentForTeachInfo(String infoId,Comment comment){
+    public Response saveCommentForTeachInfo(String infoId,@RequestBody Comment comment){
         teachInfoService.saveComment(infoId,comment);
         return new Response().success();
     }
@@ -55,11 +56,11 @@ public class CommentTeacherController {
 
     /**
      * 管理员可以在创建CommentTeacher时就把TeachInfoList置入，也可以直接置入一个空元素之后在update中调整
-     * @param teacher
+     * @param teacher todo 注意该teacher要做非null校验
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public Response saveCommentTeacher(CommentTeacher teacher){
+    public Response saveCommentTeacher(@RequestBody CommentTeacher teacher) throws Exception {
         commentTeacherService.saveCommentTeacher(teacher);//todo 注意CommentTeacher关联上的TeachInfoList
         return new Response().success();
     }
@@ -87,8 +88,31 @@ public class CommentTeacherController {
         return new Response().success();
     }
 
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public Response initData() throws Exception {
+        CommentTeacher teacher=new CommentTeacher();
+        teacher.setName("test1");
+        teacher.setPassword("111");
+        teacher.setApartment("aa");
+        teacher.setPhone("111");
+        teacher.setTid("1111");
+
+        List<TeachInfo> list=teacher.getList();
+        for (int i=0;i<3;i++){
+            TeachInfo info=new TeachInfo();
+            info.setPosition("U111");
+            info.setDate(new Date());
+            info.setTeacherName("test1");
+            //todo 这里先不加teachInfo里面的CommentList，之后要添加或更新数据时要整个数据都拿取，然后不更新的保留id，新增的不添加id (以证明可行)
+
+            list.add(info);
+        }
+        commentTeacherService.saveCommentTeacher(teacher);
+        return new Response().success();
+    }
 
     //todo 上传视频。音频
 
+    //todo 需不需要单独修改CommentTeacher里面的TeachInfo？目前解决方案是直接使用update方法做一次整体覆盖
 
 }
