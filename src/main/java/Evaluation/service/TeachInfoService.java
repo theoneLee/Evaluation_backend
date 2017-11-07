@@ -35,7 +35,7 @@ public class TeachInfoService {
 
 
     public void deleteTeachInfoById(String id) {
-        teachInfoDao.delete(Long.valueOf(id));
+        teachInfoDao.delete(Integer.valueOf(id));
     }
 
     public void save(TeachInfo teachInfo) {

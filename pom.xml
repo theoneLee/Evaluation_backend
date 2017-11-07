@@ -33,7 +33,7 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!--&lt;!&ndash;dev时使用h2数据库（spring boot会自动配置，甚至连数据源也不需要自己配置）,注意scope&ndash;&gt;-->
+        <!--dev时使用h2数据库（spring boot会自动配置，甚至连数据源也不需要自己配置）,注意scope-->
         <!--<dependency>-->
         <!--<groupId>com.h2database</groupId>-->
         <!--<artifactId>h2</artifactId>-->

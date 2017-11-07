@@ -4,10 +4,7 @@ import Evaluation.entity.Response;
 import Evaluation.entity.Teacher;
 import Evaluation.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,14 +26,20 @@ public class TeacherController {
         return new Response().success(list);
     }
 
+    /**
+     * todo 要检查接受到的Teacher值，不能让全部都为null
+     * @param teacher
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/save",method = RequestMethod.POST)
-    public Response saveTeacher(Teacher teacher) throws Exception {
+    public Response saveTeacher(@RequestBody Teacher teacher) throws Exception {
         teacherService.save(teacher);
         return new Response().success();
     }
 
     /**
-     * 注意输入/ssss这类的url时仍然会产生查询，要利用
+     * 注意输入/ssss这类的url时仍然会产生查询，要利用Exception提示报错信息
      * @param tid
      * @return
      */
@@ -59,7 +62,7 @@ public class TeacherController {
      * @return
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public Response updateTeacherByTid(Teacher teacher){
+    public Response updateTeacherByTid(@RequestBody Teacher teacher){
         teacherService.update(teacher);
         return new Response().success();
     }

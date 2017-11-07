@@ -1,7 +1,14 @@
 package Evaluation;
 
+import Evaluation.dao.TeachInfoDao;
+import Evaluation.entity.Comment;
+import Evaluation.entity.TeachInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -11,31 +18,39 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class App {
 
 //    @Autowired
-//    private static CategoryDao categoryDao;
+//    private TeachInfoDao teachInfoDao;
 
     public static void main(String[] args) {
         SpringApplication.run(App.class,args);
 
-        //initData();
+        //new App().initData();
     }
 
-//    private static void initData() {
-//        Category hotCategory=new Category();
-//        hotCategory.setName("hot");
-//        hotCategory.setFlag(true);
+//    private void initData() {
+//        //System.out.println(teachInfoDao);
+//        TeachInfo teachInfo=new TeachInfo();
+//        teachInfo.setTeacherName("test1");
+//        teachInfo.setPosition("U111");
+//        teachInfo.setDate(new Date());
 //
-//        for (int i=0;i<20;i++){
-//            News hotNews=new News();
-//            hotNews.setTitle("hotTitle"+i);
-//            hotNews.setContent("hotContent"+i);
-//            hotNews.setDate(new Date());
-//            hotNews.setNewsManagerName("admin"+i);
+//        List<Comment> list=teachInfo.getCommentList();
 //
-//            hotCategory.getNewsList().add(hotNews);
-//            hotNews.setCategory(hotCategory);
 //
+//        for (int i=0;i<3;i++){
+//            Comment comment=new Comment();
+//            comment.setNum1(1);
+//            comment.setNum2(2);
+//            comment.setNum3(3);
+//            comment.setCommentTeacherId("1111");
+//            comment.setAdvice("asd");
+//            comment.setAudioUrl("www.1.com");
+//            comment.setVideoUrl("www.1.com");
+//            comment.setCourseName("courseName1");
+//            comment.setCourseInfo("CourseInfo1");
+//
+//            list.add(comment);
 //        }
 //
-//        //categoryDao.save(hotCategory);
+//        teachInfoDao.save(teachInfo);
 //    }
 }

@@ -8,6 +8,7 @@ import Evaluation.entity.wrapper.CommentWrapper;
 import Evaluation.service.CommentTeacherService;
 import Evaluation.service.TeachInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -81,7 +82,7 @@ public class CommentTeacherController {
      * @return
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public Response updateCommentTeacher(CommentTeacher teacher){
+    public Response updateCommentTeacher(@RequestBody CommentTeacher teacher){
         commentTeacherService.updateCommentTeacherByTid(teacher);
         return new Response().success();
     }

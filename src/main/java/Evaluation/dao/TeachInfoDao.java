@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by Lee on 2017/11/7 0007.
  */
 @Repository
-public interface TeachInfoDao extends JpaRepository<TeachInfo,Long> {
+public interface TeachInfoDao extends JpaRepository<TeachInfo,Integer> {
 
 
     TeachInfo findById(Integer integer);

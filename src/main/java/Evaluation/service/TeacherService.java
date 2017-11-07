@@ -31,7 +31,7 @@ public class TeacherService {
     }
 
 
-    public Teacher getTeacherByTid(String tid) {
+    public Teacher getTeacherByTid(String tid) {//todo 要把密码内容清除。并且之后正式完成是将明文密码改为加密之后的
         return teacherDao.findByTid(tid);
     }
 
@@ -43,6 +43,7 @@ public class TeacherService {
 
     public void update(Teacher teacher) {
         Teacher temp=teacherDao.findByTid(teacher.getTid());
+        //System.out.println(temp);
         temp.setName(teacher.getName());
         temp.setPhone(teacher.getPhone());
         temp.setPassword(teacher.getPassword());
