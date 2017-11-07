@@ -14,16 +14,25 @@ public class Teacher {
     @Id
     @GeneratedValue
     private Integer id;
-    protected String tid;//工号
-    protected String phone;
-    protected String apartment;
+    private String tid;//工号
+    private String name;
+    private String phone;
+    private String apartment;
 
-    protected String password;
+    private String password;
 //    private boolean isComment;
 //    private boolean isTeach;
 //
 //    private List<TeachInfo> list=new ArrayList<TeachInfo>();
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;
