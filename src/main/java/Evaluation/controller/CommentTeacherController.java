@@ -115,4 +115,10 @@ public class CommentTeacherController {
 
     //todo 需不需要单独修改CommentTeacher里面的TeachInfo？目前解决方案是直接使用update方法做一次整体覆盖
 
+    //todo 登录注销
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public Response login(String tid,String password) throws Exception {
+        CommentTeacher commentTeacher=commentTeacherService.login(tid,password);//这里返回一个包含tid
+        return new Response().success(commentTeacher);
+    }
 }

@@ -56,4 +56,16 @@ public class CommentTeacherService {
         CommentTeacher teacher=commentTeacherDao.findByTid(tid);
         return teacher.getList();
     }
+
+    public CommentTeacher login(String tid,String password) throws Exception {
+        CommentTeacher temp=commentTeacherDao.findByTid(tid);
+        if (null==temp){
+            throw new Exception("tid不存在");
+        }
+        if (!password.equals(temp.getPassword())){
+            throw new Exception("密码错误");
+        }
+        temp.setPassword("");
+        return temp;
+    }
 }
