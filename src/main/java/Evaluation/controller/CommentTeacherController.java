@@ -7,12 +7,14 @@ import Evaluation.entity.TeachInfo;
 import Evaluation.entity.wrapper.CommentWrapper;
 import Evaluation.service.CommentTeacherService;
 import Evaluation.service.TeachInfoService;
+import org.apache.commons.fileupload.FileUpload;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -103,7 +105,7 @@ public class CommentTeacherController {
             info.setPosition("U111");
             info.setDate(new Date());
             info.setTeacherName("test1");
-            //todo 这里先不加teachInfo里面的CommentList，之后要添加或更新数据时要整个数据都拿取，然后不更新的保留id，新增的不添加id (以证明可行)
+            //这里先不加teachInfo里面的CommentList，之后要添加或更新数据时要整个数据都拿取，然后不更新的保留id，新增的不添加id (以证明可行)
 
             list.add(info);
         }
@@ -111,7 +113,42 @@ public class CommentTeacherController {
         return new Response().success();
     }
 
-    //todo 上传视频。音频
+    //上传视频。音频
+    /**
+     * 上传视频
+     * @param file
+     * @return 该资源路径，这个路径会被comment一起保存
+     */
+    @RequestMapping(value = "/upload/video", method = RequestMethod.POST)
+    public @ResponseBody
+    Response uploadVideo(@RequestParam("file") MultipartFile file) {
+
+        try {
+            FileUtils.writeByteArrayToFile(new File("target/classes/static/video/" + file.getOriginalFilename()), file.getBytes());// 保存路径写法，要保存在target上，注意还要有static这种spring boot帮你配置的静态资源路径（才能扫描）
+        } catch (IOException e) {
+            e.printStackTrace();
+           // return new Response().failure("文件上传失败");
+        }
+        return new Response().success("http://localhost:8080/video/" + file.getOriginalFilename());
+    }
+
+    /**
+     * 上传音频
+     * @param file
+     * @return 该资源路径，这个路径会被comment一起保存
+     */
+    @RequestMapping(value = "/upload/audio", method = RequestMethod.POST)
+    public @ResponseBody
+    Response uploadAudio(@RequestParam("file") MultipartFile file) {
+
+        try {
+            FileUtils.writeByteArrayToFile(new File("target/classes/static/audio/" + file.getOriginalFilename()), file.getBytes());// 保存路径写法，要保存在target上，注意还要有static这种spring boot帮你配置的静态资源路径（才能扫描）
+        } catch (IOException e) {
+            e.printStackTrace();
+            //return new Response().failure("文件上传失败");
+        }
+        return new Response().success("http://localhost:8080/audio/" + file.getOriginalFilename());
+    }
 
     //todo 需不需要单独修改CommentTeacher里面的TeachInfo？目前解决方案是直接使用update方法做一次整体覆盖
 

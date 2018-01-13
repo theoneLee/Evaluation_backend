@@ -11,8 +11,9 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.3.RELEASE</version>
+        <version>1.5.9.RELEASE</version>
     </parent>
+
 
     <dependencies>
         <!--web 因为thymeleaf包含web依赖，所以不用额外添加-->
@@ -39,6 +40,7 @@
         <!--<artifactId>h2</artifactId>-->
         <!--<scope>runtime</scope>-->
         <!--</dependency>-->
+
 
         <!--mysql-->
         <dependency>
@@ -67,8 +69,18 @@
         </dependency>
 
         <!--在这里导入依赖-->
-
-
+        <!--commons-fileupload-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <!--commons-io-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.3</version>
+        </dependency>
     </dependencies>
 
     <!--修改java版本为1.8-->
