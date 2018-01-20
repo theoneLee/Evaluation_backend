@@ -13,7 +13,6 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,8 +33,7 @@ import java.util.List;
 @RequestMapping(value = "/commentTeacher")
 public class CommentTeacherController {
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+
     @Autowired
     private CommentTeacherService commentTeacherService;
 
@@ -101,11 +99,6 @@ public class CommentTeacherController {
     public Response initData(String tid) throws Exception {
         CommentTeacher teacher=new CommentTeacher();
         teacher.setName("test1");
-        //logger.info("加密前tid："+tid);
-        //String pw=passwordEncoder.encode(tid);
-        //logger.info("第1次调用："+pw);
-        //logger.info("第二次调用："+passwordEncoder.encode(tid));
-        //logger.info(String.valueOf(passwordEncoder.matches(tid,pw)));
         teacher.setPassword(tid);
         teacher.setApartment("aa");
         teacher.setPhone("111");

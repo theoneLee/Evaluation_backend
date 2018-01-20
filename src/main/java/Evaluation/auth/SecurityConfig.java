@@ -14,10 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();//在这里可以返回一个自定义的密码加密器，现在用spring security提供的
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();//在这里可以返回一个自定义的密码加密器，现在用spring security提供的
+    }
 
 
     @Override
@@ -40,28 +40,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 
 
-    /**
-     * 自定义md5+salt的加密手段
-     * @param auth
-     * @throws Exception
-     */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserService).passwordEncoder(new PasswordEncoder(){
-
-            public String encode(CharSequence rawPassword) {//实现PasswordEncoder的encode和matches
-                return MD5Util.encode((String)rawPassword);
-            }
-
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                System.out.println("进入matches："+rawPassword.toString());
-                System.out.println(MD5Util.encode(rawPassword.toString()));
-                return encodedPassword.equals(MD5Util.encode((String)rawPassword));
-            }}); //user Details Service验证
-    }
-
-    @Autowired
-    MyUserDetailService customUserService;
+//    /**
+//     * 自定义md5+salt的加密手段
+//     * @param auth
+//     * @throws Exception
+//     */
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(customUserService).passwordEncoder(new PasswordEncoder(){
+//
+//            public String encode(CharSequence rawPassword) {//实现PasswordEncoder的encode和matches
+//                return MD5Util.encode((String)rawPassword);
+//            }
+//
+//            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+//                System.out.println("进入matches："+rawPassword.toString());
+//                System.out.println(MD5Util.encode(rawPassword.toString()));
+//                return encodedPassword.equals(MD5Util.encode((String)rawPassword));
+//            }}); //user Details Service验证
+//    }
+//
+//    @Autowired
+//    MyUserDetailService customUserService;
 
 
 }
