@@ -1,5 +1,6 @@
 package Evaluation.controller;
 
+import Evaluation.auth.MD5Util;
 import Evaluation.entity.Comment;
 import Evaluation.entity.CommentTeacher;
 import Evaluation.entity.Response;
@@ -9,7 +10,10 @@ import Evaluation.service.CommentTeacherService;
 import Evaluation.service.TeachInfoService;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,11 +34,14 @@ import java.util.List;
 @RequestMapping(value = "/commentTeacher")
 public class CommentTeacherController {
 
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
     @Autowired
     private CommentTeacherService commentTeacherService;
 
     @Autowired
     private TeachInfoService teachInfoService;
+    private Logger logger= LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/teachInfo",method = RequestMethod.GET)
     public Response getTeachInfoByCommentTeacherTid(String tid){
@@ -91,24 +98,29 @@ public class CommentTeacherController {
     }
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public Response initData() throws Exception {
+    public Response initData(String tid) throws Exception {
         CommentTeacher teacher=new CommentTeacher();
         teacher.setName("test1");
-        teacher.setPassword("111");
+        //logger.info("加密前tid："+tid);
+        //String pw=passwordEncoder.encode(tid);
+        //logger.info("第1次调用："+pw);
+        //logger.info("第二次调用："+passwordEncoder.encode(tid));
+        //logger.info(String.valueOf(passwordEncoder.matches(tid,pw)));
+        teacher.setPassword(tid);
         teacher.setApartment("aa");
         teacher.setPhone("111");
-        teacher.setTid("1112");
+        teacher.setTid(tid);
 
-        List<TeachInfo> list=teacher.getList();
-        for (int i=0;i<3;i++){
-            TeachInfo info=new TeachInfo();
-            info.setPosition("U111");
-            info.setDate(new Date());
-            info.setTeacherName("test1");
-            //这里先不加teachInfo里面的CommentList，之后要添加或更新数据时要整个数据都拿取，然后不更新的保留id，新增的不添加id (以证明可行)
-
-            list.add(info);
-        }
+//        List<TeachInfo> list=teacher.getList();
+//        for (int i=0;i<3;i++){
+//            TeachInfo info=new TeachInfo();
+//            info.setPosition("U111");
+//            info.setDate(new Date());
+//            info.setTeacherName("test1");
+//            //这里先不加teachInfo里面的CommentList，之后要添加或更新数据时要整个数据都拿取，然后不更新的保留id，新增的不添加id (以证明可行)
+//
+//            list.add(info);
+//        }
         commentTeacherService.saveCommentTeacher(teacher);
         return new Response().success();
     }

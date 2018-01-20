@@ -1,9 +1,12 @@
 package Evaluation.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -13,8 +16,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 //    @Bean
 //    public PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
+//        return new BCryptPasswordEncoder();//在这里可以返回一个自定义的密码加密器，现在用spring security提供的
 //    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -25,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/sign-in.html","/authentication/require").permitAll()//antMatchers匹配上的url都不需要认证就可以访问
+                .antMatchers("/sign-in.html","/authentication/require","/commentTeacher/test").permitAll()//antMatchers匹配上的url都不需要认证就可以访问
 
                 .anyRequest()//下面任意url都要认证和授权
                 .authenticated()
@@ -33,4 +37,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
                 .csrf().disable();
     }
+
+
+
+    /**
+     * 自定义md5+salt的加密手段
+     * @param auth
+     * @throws Exception
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserService).passwordEncoder(new PasswordEncoder(){
+
+            public String encode(CharSequence rawPassword) {//实现PasswordEncoder的encode和matches
+                return MD5Util.encode((String)rawPassword);
+            }
+
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                System.out.println("进入matches："+rawPassword.toString());
+                System.out.println(MD5Util.encode(rawPassword.toString()));
+                return encodedPassword.equals(MD5Util.encode((String)rawPassword));
+            }}); //user Details Service验证
+    }
+
+    @Autowired
+    MyUserDetailService customUserService;
+
+
 }
