@@ -19,9 +19,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin()
+                .loginPage("/authentication/require")//使用controller，可以判定是html请求还是api请求
+                //.loginPage("/sign-in.html")
+                .loginProcessingUrl("/authentication/form")//sign-in.html上的action路径，复写了usernamePasswordAuthenticationFilter的默认提供的/login登陆页处理器的方法
+
                 .and()
                 .authorizeRequests()
-                .anyRequest()
-                .authenticated();
+                .antMatchers("/sign-in.html","/authentication/require").permitAll()//antMatchers匹配上的url都不需要认证就可以访问
+
+                .anyRequest()//下面任意url都要认证和授权
+                .authenticated()
+
+                .and()
+                .csrf().disable();
     }
 }
