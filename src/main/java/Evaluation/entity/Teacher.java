@@ -1,5 +1,7 @@
 package Evaluation.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,11 +16,13 @@ public class Teacher {
     @Id
     @GeneratedValue
     private Integer id;
+    @NotBlank
     private String tid;//工号
     private String name;
     private String phone;
     private String apartment;
 
+    @NotBlank
     private String password;
 //    private boolean isComment;
 //    private boolean isTeach;

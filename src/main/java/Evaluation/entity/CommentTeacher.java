@@ -1,5 +1,7 @@
 package Evaluation.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +15,13 @@ public class CommentTeacher{
     @Id
     @GeneratedValue
     private Integer id;
+    @NotBlank
     private String tid;//工号
     private String name;
     private String phone;
     private String apartment;
 
+    @NotBlank
     private String password;
 
     @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.LAZY)
