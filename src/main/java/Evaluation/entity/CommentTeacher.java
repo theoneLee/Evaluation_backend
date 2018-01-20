@@ -1,9 +1,13 @@
 package Evaluation.entity;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,7 +15,7 @@ import java.util.List;
  * Created by Lee on 2017/10/17 0017.
  */
 @Entity
-public class CommentTeacher{
+public class CommentTeacher implements UserDetails{
     @Id
     @GeneratedValue
     private Integer id;
@@ -59,8 +63,32 @@ public class CommentTeacher{
         this.apartment = apartment;
     }
 
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return AuthorityUtils.commaSeparatedStringToAuthorityList("comment");
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public String getUsername() {
+        return tid;
+    }
+
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {

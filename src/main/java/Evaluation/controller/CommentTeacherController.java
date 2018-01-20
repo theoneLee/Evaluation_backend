@@ -97,7 +97,7 @@ public class CommentTeacherController {
         teacher.setPassword("111");
         teacher.setApartment("aa");
         teacher.setPhone("111");
-        teacher.setTid("1111");
+        teacher.setTid("1112");
 
         List<TeachInfo> list=teacher.getList();
         for (int i=0;i<3;i++){
