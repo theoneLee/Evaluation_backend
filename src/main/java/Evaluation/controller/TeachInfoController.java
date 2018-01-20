@@ -7,10 +7,7 @@ import Evaluation.service.TeachInfoService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -32,25 +29,25 @@ public class TeachInfoController {
         return new Response().success(list);
     }
 
-    @RequestMapping(value = "/id",method = RequestMethod.GET)
-    public Response getTeachInfoById(String id){
+    @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.GET)
+    public Response getTeachInfoById(@PathVariable String id){
         TeachInfo info=teachInfoService.getTeachInfoById(id);
         return new Response().success(info);
     }
 
-    @RequestMapping(value = "/delete",method = RequestMethod.GET)
-    public Response deleteTeachInfoById(String id){
+    @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.DELETE)
+    public Response deleteTeachInfoById(@PathVariable String id){
         teachInfoService.deleteTeachInfoById(id);
         return new Response().success();
     }
 
-    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public Response saveTeachInfo(@RequestBody TeachInfo teachInfo){
         teachInfoService.save(teachInfo);
         return new Response().success();
     }
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.PUT)
     public Response updateTeachInfoById(@RequestBody TeachInfo teachInfo){
         teachInfoService.update(teachInfo);
         return new Response().success();

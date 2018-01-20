@@ -32,7 +32,7 @@ public class TeacherController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    @RequestMapping(value = "/",method = RequestMethod.POST)
     public Response saveTeacher(@RequestBody Teacher teacher) throws Exception {
         teacherService.save(teacher);
         return new Response().success();
@@ -43,14 +43,14 @@ public class TeacherController {
      * @param tid
      * @return
      */
-    @RequestMapping(value = "/tid",method = RequestMethod.GET)
-    public Response getTeacherByTid(String tid){
+    @RequestMapping(value = "/{tid:\\d+}",method = RequestMethod.GET)
+    public Response getTeacherByTid(@PathVariable String tid){
         Teacher teacher=teacherService.getTeacherByTid(tid);
         return new Response().success(teacher);
     }
 
-    @RequestMapping(value = "/delete",method = RequestMethod.GET)
-    public Response deleteTeacherByTid(String tid){
+    @RequestMapping(value = "/{tid:\\d+}",method = RequestMethod.DELETE)
+    public Response deleteTeacherByTid(@PathVariable String tid){
         teacherService.deleteByTid(tid);
         return new Response().success();
     }
@@ -61,7 +61,7 @@ public class TeacherController {
      * @param teacher
      * @return
      */
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @RequestMapping(value = "/{tid:\\d+}",method = RequestMethod.PUT)
     public Response updateTeacherByTid(@RequestBody Teacher teacher){
         teacherService.update(teacher);
         return new Response().success();

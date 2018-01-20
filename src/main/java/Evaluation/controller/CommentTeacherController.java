@@ -49,8 +49,8 @@ public class CommentTeacherController {
      * @param infoId
      * @return
      */
-    @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Response saveCommentForTeachInfo(String infoId,@RequestBody Comment comment){
+    @RequestMapping(value = "/comment/{infoId:\\d+}",method = RequestMethod.POST)
+    public Response saveCommentForTeachInfo(@PathVariable String infoId,@RequestBody Comment comment){
         teachInfoService.saveComment(infoId,comment);
         return new Response().success();
     }
@@ -67,14 +67,14 @@ public class CommentTeacherController {
         return new Response().success();
     }
 
-    @RequestMapping(value = "/delete",method = RequestMethod.GET)
-    public Response deleteCommentTeacher(String tid){
+    @RequestMapping(value = "/{tid:\\d+}",method = RequestMethod.DELETE)
+    public Response deleteCommentTeacher(@PathVariable String tid){
         commentTeacherService.deleteCommentTeacher(tid);//删除该对象要顺便把CommentTeacher的TeachInfoList也删除，使用级联即可
         return new Response().success();
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Response getCommentTeacherByTid(String tid){
+    @RequestMapping(value = "/{tid:\\d+}",method = RequestMethod.GET)
+    public Response getCommentTeacherByTid(@PathVariable String tid){
         CommentTeacher teacher=commentTeacherService.getCommentTeacherByTid(tid);
         return new Response().success(teacher);
     }
@@ -84,7 +84,7 @@ public class CommentTeacherController {
      * @param teacher
      * @return
      */
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @RequestMapping(value = "/{tid:\\d+}",method = RequestMethod.PUT)
     public Response updateCommentTeacher(@RequestBody CommentTeacher teacher){
         commentTeacherService.updateCommentTeacherByTid(teacher);
         return new Response().success();
