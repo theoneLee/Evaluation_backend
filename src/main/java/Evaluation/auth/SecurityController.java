@@ -8,6 +8,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,5 +41,11 @@ public class SecurityController {
             }
         }
         return new Response().failure("引导用户到登陆页");//savedRequest为空就是json请求，直接通过该controller返回一个401未授权
+    }
+
+    @GetMapping(value = "/session/invalid")
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public Response sessionInvalid(){
+        return new Response().failure("session失效");
     }
 }

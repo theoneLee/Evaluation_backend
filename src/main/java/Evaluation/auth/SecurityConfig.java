@@ -26,10 +26,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .loginPage("/authentication/require")//使用controller，可以判定是html请求还是api请求
                 //.loginPage("/sign-in.html")
                 .loginProcessingUrl("/authentication/form")//sign-in.html上的action路径，复写了usernamePasswordAuthenticationFilter的默认提供的/login登陆页处理器的方法
-
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)//这两句可以实现第二个用户不能登陆（在第一个用户登陆时）
+                .expiredUrl("/session/invalid")
+                //.expiredSessionStrategy()
+                .and()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/sign-in.html","/authentication/require","/commentTeacher/test").permitAll()//antMatchers匹配上的url都不需要认证就可以访问
+                .antMatchers("/sign-in.html","/authentication/require","/commentTeacher/test","/session/invalid").permitAll()//antMatchers匹配上的url都不需要认证就可以访问
 
                 .anyRequest()//下面任意url都要认证和授权
                 .authenticated()
