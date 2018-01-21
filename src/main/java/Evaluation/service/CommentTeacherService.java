@@ -64,10 +64,11 @@ public class CommentTeacherService {
 
     public CommentTeacher login(String tid,String password) throws Exception {
         CommentTeacher temp=commentTeacherDao.findByTid(tid);
+
         if (null==temp){
             throw new Exception("tid不存在");
         }
-        if (!password.equals(temp.getPassword())){
+        if (!passwordEncoder.matches(password,temp.getPassword())){//自己手动验证密码，不能使用equals方法来判断，因为加密方式时sha256+salt，使用equals一定是失败的
             throw new Exception("密码错误");
         }
         temp.setPassword("");

@@ -16,10 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 1.评课教师在客户端的登陆注销
@@ -33,7 +35,6 @@ import java.util.List;
 @RequestMapping(value = "/commentTeacher")
 public class CommentTeacherController {
 
-
     @Autowired
     private CommentTeacherService commentTeacherService;
 
@@ -42,10 +43,21 @@ public class CommentTeacherController {
     private Logger logger= LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/teachInfo",method = RequestMethod.GET)
-    public Response getTeachInfoByCommentTeacherTid(String tid){
+    public Response getTeachInfoByCommentTeacherTid(HttpServletRequest request,String tid,String token) throws Exception {
         //评课教师获取他的待评课列表
+        checkToken(request,tid,token);
         List<TeachInfo> list=commentTeacherService.getTeachInfoByCommentTeacherTid(tid);
         return new Response().success(list);
+    }
+
+    private void checkToken(HttpServletRequest request, String tid, String token) throws Exception {
+        String res= (String) request.getSession().getAttribute(tid);
+        if (res==null){
+            throw new Exception("session不含该tid，请重新登陆");
+        }
+        if (!res.equals(token)){
+            throw new Exception("请重新登陆");
+        }
     }
 
     /**
@@ -56,6 +68,7 @@ public class CommentTeacherController {
      */
     @RequestMapping(value = "/comment/{infoId:\\d+}",method = RequestMethod.POST)
     public Response saveCommentForTeachInfo(@PathVariable String infoId,@RequestBody Comment comment){
+        //checkToken(request,tid,token);todo
         teachInfoService.saveComment(infoId,comment);
         return new Response().success();
     }
@@ -98,22 +111,22 @@ public class CommentTeacherController {
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public Response initData(String tid) throws Exception {
         CommentTeacher teacher=new CommentTeacher();
-        teacher.setName("test1");
+        teacher.setName("可使用账号");
         teacher.setPassword(tid);
         teacher.setApartment("aa");
         teacher.setPhone("111");
         teacher.setTid(tid);
 
-//        List<TeachInfo> list=teacher.getList();
-//        for (int i=0;i<3;i++){
-//            TeachInfo info=new TeachInfo();
-//            info.setPosition("U111");
-//            info.setDate(new Date());
-//            info.setTeacherName("test1");
-//            //这里先不加teachInfo里面的CommentList，之后要添加或更新数据时要整个数据都拿取，然后不更新的保留id，新增的不添加id (以证明可行)
-//
-//            list.add(info);
-//        }
+        List<TeachInfo> list=teacher.getList();
+        for (int i=0;i<3;i++){
+            TeachInfo info=new TeachInfo();
+            info.setPosition("U111");
+            info.setDate(new Date());
+            info.setTeacherName("可使用账号");
+            //这里先不加teachInfo里面的CommentList，之后要添加或更新数据时要整个数据都拿取，然后不更新的保留id，新增的不添加id (以证明可行)
+
+            list.add(info);
+        }
         commentTeacherService.saveCommentTeacher(teacher);
         return new Response().success();
     }
@@ -127,7 +140,7 @@ public class CommentTeacherController {
     @RequestMapping(value = "/upload/video", method = RequestMethod.POST)
     public @ResponseBody
     Response uploadVideo(@RequestParam("file") MultipartFile file) {
-
+        //checkToken(request,tid,token);todo
         try {
             FileUtils.writeByteArrayToFile(new File("target/classes/static/video/" + file.getOriginalFilename()), file.getBytes());// 保存路径写法，要保存在target上，注意还要有static这种spring boot帮你配置的静态资源路径（才能扫描）
         } catch (IOException e) {
@@ -145,7 +158,7 @@ public class CommentTeacherController {
     @RequestMapping(value = "/upload/audio", method = RequestMethod.POST)
     public @ResponseBody
     Response uploadAudio(@RequestParam("file") MultipartFile file) {
-
+        //checkToken(request,tid,token);todo
         try {
             FileUtils.writeByteArrayToFile(new File("target/classes/static/audio/" + file.getOriginalFilename()), file.getBytes());// 保存路径写法，要保存在target上，注意还要有static这种spring boot帮你配置的静态资源路径（才能扫描）
         } catch (IOException e) {
@@ -157,10 +170,40 @@ public class CommentTeacherController {
 
     //todo 需不需要单独修改CommentTeacher里面的TeachInfo？目前解决方案是直接使用update方法做一次整体覆盖
 
-//    //登录注销
-//    @RequestMapping(value = "/login",method = RequestMethod.POST)
-//    public Response login(String tid,String password) throws Exception {
-//        CommentTeacher commentTeacher=commentTeacherService.login(tid,password);//这里返回一个包含tid
-//        return new Response().success(commentTeacher);
-//    }
+    //登录注销
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public Response login(HttpServletRequest request,String tid, String password) throws Exception {
+        CommentTeacher commentTeacher=commentTeacherService.login(tid,password);//这里返回一个包含tid和token，之后app访问api需要认证该token
+        LoginWrapper wrapper=new LoginWrapper();
+        wrapper.setTid(commentTeacher.getTid());
+        wrapper.setToken(UUID.randomUUID().toString());
+        request.getSession().setAttribute(tid,wrapper.getToken());
+        return new Response().success(wrapper);
+    }
+    @RequestMapping(value = "/logout",method = RequestMethod.POST)
+    public Response logout(HttpServletRequest request,String tid) {
+        request.getSession().removeAttribute(tid);
+        return new Response().success("退出成功");
+    }
+
+    class LoginWrapper{
+        private String tid;
+        private String token;
+
+        public String getTid() {
+            return tid;
+        }
+
+        public void setTid(String tid) {
+            this.tid = tid;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+    }
 }
