@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>添加老师</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jumbotron-narrow.css}" rel="stylesheet"/>
+
+    <script type="text/javascript">
+
+        function validate_required(field,alerttxt)
+        {
+            with (field)
+            {
+                if (value==null||value=="")
+                {alert(alerttxt);return false}
+                else {return true}
+            }
+        }
+
+        function validate_form(thisform)
+        {
+            with (thisform)
+            {
+                if (validate_required(tid,"不能为空")==false)
+                {name.focus();return false}
+                if (validate_required(password,"不能为空")==false)
+                {name.focus();return false}
+            }
+        }
+    </script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/admin/allTeacher}">查看老师</a></li>
+                <li class="active"><a href="#">添加老师</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/admin/allCommentTeacher}">查看评课老师</a></li>
+                <li><a th:href="@{/admin/addCommentTeacher}">添加评课老师</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/admin/allTeachInfo}">查看教学信息</a></li>
+                <li><a th:href="@{/admin/addTeachInfo}">添加教学信息</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/admin/seachTeachInfo}">搜索某一位老师的教学信息</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/admin/allAdmin}">查看管理员</a></li>
+                <li><a th:href="@{/admin/addAdmin}">添加管理员</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <h2 class="sub-header">添加老师</h2>
+            <div class="table-responsive">
+                <form th:action="@{/admin/addTeacher/post}" onsubmit="return validate_form(this)" method="post">
+                    <div class="input-group">
+                        <span class="input-group-addon">工号tid</span>
+                        <input name="tid" type="text" class="form-control" placeholder="工号tid"/>
+
+                        <span class="input-group-addon">密码</span>
+                        <input name="password" type="text" class="form-control" placeholder="待添加密码"/>
+
+                        <span class="input-group-addon">姓名</span>
+                        <input name="name" type="text" class="form-control" placeholder="待添加姓名"/>
+
+                        <span class="input-group-addon">手机</span>
+                        <input name="phone" type="text" class="form-control" placeholder="待添加手机"/>
+
+                        <span class="input-group-addon">所在系部</span>
+                        <input name="apartment" type="text" class="form-control" placeholder="待添加所在系部"/>
+                    </div>
+                    <br />
+                    <input class="form-control" type="submit" value="提交"/>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

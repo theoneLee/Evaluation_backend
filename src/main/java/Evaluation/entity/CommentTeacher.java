@@ -64,7 +64,7 @@ public class CommentTeacher implements UserDetails{
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList("comment,ROLE_USER");
+        return AuthorityUtils.commaSeparatedStringToAuthorityList("comment");
     }
 
     public String getPassword() {

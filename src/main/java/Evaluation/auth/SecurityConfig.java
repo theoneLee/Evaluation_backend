@@ -29,10 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .expiredUrl("/session/invalid")
                 //.expiredSessionStrategy()
                 .and()
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/admin/**").hasAuthority("admin")//此选中的url要有admin的Authority,todo 验证：注意antMatchers的先后顺序有覆盖作用？
                 .and()
                 .authorizeRequests()
-                .antMatchers("/sign-in.html","/authentication/require","/commentTeacher/test","/session/invalid","/commentTeacher/**").permitAll()//antMatchers匹配上的url都不需要认证就可以访问
-
+                .antMatchers("/sign-in.html","/authentication/require","/commentTeacher/test","/session/invalid","/commentTeacher/**","/admin/test/**").permitAll()//antMatchers匹配上的url都不需要认证就可以访问
                 .anyRequest()//下面任意url都要认证和授权
                 .authenticated()
 

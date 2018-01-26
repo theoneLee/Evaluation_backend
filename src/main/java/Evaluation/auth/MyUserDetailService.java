@@ -1,5 +1,6 @@
 package Evaluation.auth;
 
+import Evaluation.dao.AdminDao;
 import Evaluation.dao.CommentTeacherDao;
 import Evaluation.entity.CommentTeacher;
 import org.slf4j.Logger;
@@ -21,14 +22,18 @@ public class MyUserDetailService implements UserDetailsService{
     @Autowired
     private CommentTeacherDao dao;
 
+    @Autowired
+    private AdminDao adminDao;
+
 //    @Autowired
 //    private PasswordEncoder passwordEncoder;
 
     private Logger logger= LoggerFactory.getLogger(getClass());
 
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {//只要一个实体实现了UserDetails接口，然后在UserDetailsService实现类上重写这个loadUserByUsername方法即可完成自定义用户的认证和授权
+        return adminDao.findByUsername(s);
+//        CommentTeacher teacher=dao.findByTid(s);
+//        return teacher;
 
-        CommentTeacher teacher=dao.findByTid(s);
-        return teacher;
     }
 }

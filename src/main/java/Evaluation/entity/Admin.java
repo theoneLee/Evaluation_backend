@@ -26,7 +26,7 @@ public class Admin implements UserDetails{
 
     //该角色返回的权限
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.commaSeparatedStringToAuthorityList("admin,comment,ROLE_USER");
+        return AuthorityUtils.commaSeparatedStringToAuthorityList("admin,comment");
     }
 
     public String getPassword() {
