@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>查看老师</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jumbotron-narrow.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">查看老师</a></li>
+                <li ><a th:href="@{/admin/addTeacher}">添加老师</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/admin/allCommentTeacher}">查看评课老师</a></li>
+                <!--<li><a th:href="@{/admin/addCommentTeacher}">添加评课老师</a></li>-->
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/admin/allTeachInfo}">查看教学信息</a></li>
+                <li><a th:href="@{/admin/addTeachInfo}">添加教学信息</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/admin/seachTeachInfo}">搜索某一位老师的教学信息</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/admin/allAdmin}">查看管理员</a></li>
+                <li><a th:href="@{/admin/addAdmin}">添加管理员</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a th:href="@{/logout}">注销登陆</a></li>
+            </ul>
+        </div>
+
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="sub-header">查看老师</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>工号tid</th>
+                        <th>姓名</th>
+                        <th>电话</th>
+                        <th>所在系部</th>
+                        <th>更新操作</th>
+                        <th>删除操作</th>
+                        <th>加入评课老师</th>
+                    </tr>
+                    </thead>
+                    <tr th:each="teacher:${page.getContent()}">
+                        <td th:text="${teacherStat.count}">1,001</td>
+                        <td th:text="${teacher.tid}">Lorem</td>
+                        <td th:text="${teacher.name}">Lorem</td>
+                        <td th:text="${teacher.phone}">Lorem</td>
+                        <td th:text="${teacher.apartment}">Lorem</td>
+                        <td><a th:href="@{/admin/updateTeacher(id=${teacher.id})}">更新</a></td>
+                        <td><a th:href="@{/admin/deleteTeacher(id=${teacher.id})}">删除</a></td>
+                        <td><a th:href="@{/admin/addCommentTeacher(id=${teacher.id})}">加入</a></td>
+                    </tr>
+                </table>
+                <!--todo 分页-->
+                <div class="jumbotron" id="container_more" th:object="${page}">
+                    <!--分页器+spring data分页器接口org.springframework.data.domain.Page -->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li data-th-classappend="*{first} ? 'disabled' : ''">
+                                <a th:href="@{/admin/allTeacher(page=${page.number}-1)}" data-th-attr="pageIndex=${page.number} - 1" aria-label="Previous">
+                                    <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+
+                            <!-- 迭代生成页码 -->
+                            <li data-th-each="i : ${#numbers.sequence(1, page.totalPages)}"
+                                data-th-classappend="${(page.number + 1) eq i} ? 'active' : ''" >
+                                <a class="page-link" data-th-attr="pageIndex=${i} - 1" th:href="@{/admin/allTeacher(page=${i}-1)}">
+                                    <span data-th-text="${i}"></span>
+                                </a>
+                            </li>
+                            <li data-th-classappend="*{last} ? 'disabled' : ''">
+                                <a th:href="@{/admin/allTeacher(page=${page.number}+1)}" data-th-attr="pageIndex=${page.number} + 1" aria-label="Next">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

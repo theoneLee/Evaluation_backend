@@ -1,6 +1,8 @@
 package Evaluation.dao;
 
 import Evaluation.entity.Teacher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,6 @@ public interface TeacherDao extends JpaRepository<Teacher,Long>{
 
     @Query("select t.name from Teacher t")
     List<String> getAllTeacherNameList();
+
+    //Page<Teacher> find(Pageable pageable);
 }

@@ -3,6 +3,9 @@ package Evaluation.service;
 import Evaluation.dao.TeacherDao;
 import Evaluation.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,10 @@ public class TeacherService {
         return list;
     }
 
+    public Page<Teacher> getAllTeacherList(int page){
+        int size=5;
+        return teacherDao.findAll(new PageRequest(page,size));
+    }
 
     public void save(Teacher teacher) throws Exception {
         Teacher temp=teacherDao.findByTid(teacher.getTid());

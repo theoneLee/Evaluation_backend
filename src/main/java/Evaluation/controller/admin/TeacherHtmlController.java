@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -38,8 +39,16 @@ public class TeacherHtmlController {
             }
             e.printStackTrace();
         }
+        return "redirect:/admin/allTeacher";
+    }
+
+
+    @GetMapping(value = "/admin/allTeacher")
+    public String allTeacherView(@RequestParam(value = "page",defaultValue = "0")int page, Model model){
+        model.addAttribute("page",teacherService.getAllTeacherList(page));
         return "/admin/allTeacher";
     }
+
 
 
 }
