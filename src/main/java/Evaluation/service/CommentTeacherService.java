@@ -88,8 +88,15 @@ public class CommentTeacherService {
     }
 
     public void updateCommentTeacher(CommentTeacher teacher) {
+        //这里修改时不能够直接save(teacher)，这样会把List<TeachInfo> list字段给覆盖掉
+        String tid=teacher.getTid();
+        CommentTeacher temp=commentTeacherDao.findByTid(tid);
+        temp.setName(teacher.getName());
+        temp.setPhone(teacher.getPhone());
+        temp.setApartment(teacher.getApartment());
+        //temp.setList(teacher.getList());
         teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
-        commentTeacherDao.save(teacher);
+        commentTeacherDao.save(temp);//这里保存从数据库找到的teacher，就保留有List<TeachInfo>
     }
 
     public void deleteCommentTeacherById(Long id) {
