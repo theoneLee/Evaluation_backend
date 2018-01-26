@@ -18,7 +18,7 @@ import java.util.List;
 public class CommentTeacher implements UserDetails{
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
     @NotBlank
     private String tid;//工号
     private String name;
@@ -95,11 +95,11 @@ public class CommentTeacher implements UserDetails{
         this.password = password;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

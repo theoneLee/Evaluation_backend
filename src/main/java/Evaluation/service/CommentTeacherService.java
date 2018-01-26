@@ -4,7 +4,10 @@ import Evaluation.auth.MD5Util;
 import Evaluation.dao.CommentTeacherDao;
 import Evaluation.entity.CommentTeacher;
 import Evaluation.entity.TeachInfo;
+import Evaluation.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -73,5 +76,23 @@ public class CommentTeacherService {
         }
         temp.setPassword("");
         return temp;
+    }
+
+    public Page<CommentTeacher> getAllCommentTeacherList(int page) {
+        int size=5;
+        return commentTeacherDao.findAll(new PageRequest(page,size));
+    }
+
+    public CommentTeacher getCommentTeacherById(Long id) {
+        return commentTeacherDao.findOne(id);
+    }
+
+    public void updateCommentTeacher(CommentTeacher teacher) {
+        teacher.setPassword(passwordEncoder.encode(teacher.getPassword()));
+        commentTeacherDao.save(teacher);
+    }
+
+    public void deleteCommentTeacherById(Long id) {
+        commentTeacherDao.delete(id);
     }
 }

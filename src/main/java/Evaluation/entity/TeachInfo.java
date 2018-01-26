@@ -16,7 +16,7 @@ public class TeachInfo {
     private String position;
     private Date date;
 
-    private String teacherName;//授课老师
+    private String teacherName;//授课老师，此要接受一个tid
     @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.LAZY)
     private List<Comment> commentList=new ArrayList<Comment>();//评分列表，单向一对多
 

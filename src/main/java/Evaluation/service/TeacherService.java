@@ -47,6 +47,9 @@ public class TeacherService {
         Teacher teacher=teacherDao.findByTid(tid);
         teacherDao.delete(teacher);
     }
+    public void deleteById(Long id) {
+        teacherDao.delete(id);
+    }
 
     public void update(Teacher teacher) {
         Teacher temp=teacherDao.findByTid(teacher.getTid());
@@ -56,5 +59,9 @@ public class TeacherService {
         //temp.setPassword(teacher.getPassword());
         temp.setApartment(teacher.getApartment());
         teacherDao.save(temp);
+    }
+
+    public Teacher getTeacherById(Long id) {
+        return teacherDao.findOne(Long.valueOf(id));
     }
 }

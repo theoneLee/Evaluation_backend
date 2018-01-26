@@ -24,7 +24,7 @@ public class TeacherHtmlController {
     }
 
     @PostMapping(value = "/admin/addTeacher/post")
-    public String addTeacher(@Valid Teacher teacher, BindingResult errors, Model model) {//在不加@RequestBody的情况下，是否能够将表单元素包装为teacher？
+    public String addTeacher(@Valid Teacher teacher, BindingResult errors, Model model) {//在不加@RequestBody的情况下，是否能够将表单元素包装为teacher？验证后是可以
         if (errors.hasErrors()){
             model.addAttribute("filedError",errors.getAllErrors());
             return "/admin/addTeacher";
@@ -49,6 +49,29 @@ public class TeacherHtmlController {
         return "/admin/allTeacher";
     }
 
+    @GetMapping(value = "/admin/updateTeacher")
+    public String updateTeacherView(Model model, @RequestParam(value = "id") Long id){
+        Teacher teacher=teacherService.getTeacherById(id);
+        model.addAttribute("teacher",teacher);
+        return "/admin/updateTeacher";
+    }
+
+    @PostMapping(value = "/admin/updateTeacher/post")
+    public String updateTeacher(@Valid Teacher teacher, BindingResult errors, Model model) {//在不加@RequestBody的情况下，是否能够将表单元素包装为teacher？
+        if (errors.hasErrors()){
+            model.addAttribute("filedError",errors.getAllErrors());
+            return "/admin/updateTeacher";
+        }
+        System.out.println(getClass()+":"+teacher.getId());
+        teacherService.update(teacher);
+        return "redirect:/admin/allTeacher";
+    }
+
+    @GetMapping(value = "/admin/deleteTeacher")
+    public String deleteTeacherView(@RequestParam(value = "id") Long id){
+        teacherService.deleteById(id);
+        return "redirect:/admin/allTeacher";
+    }
 
 
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class Teacher {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
     @NotBlank
     private String tid;//工号
     private String name;
@@ -38,11 +38,11 @@ public class Teacher {
         this.name = name;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
