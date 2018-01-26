@@ -32,10 +32,10 @@
         {
             with (thisform)
             {
-                if (validate_required(tid,"不能为空")==false)
+                if (validate_required(tid,"tid不能为空")==false)
                 {name.focus();return false}
-                if (validate_required(password,"不能为空")==false)
-                {name.focus();return false}
+                // if (validate_required(password,"不能为空")==false)
+                // {name.focus();return false}
             }
         }
     </script>
@@ -69,14 +69,18 @@
 
             <h2 class="sub-header">添加老师</h2>
             <div class="table-responsive">
+                <div th:if="${tidError}">
+                    <!--若有错误，输出该错误在界面上-->
+                    <p style="color: red" th:text="${tidError}"></p>
+                </div>
+
                 <form th:action="@{/admin/addTeacher/post}" onsubmit="return validate_form(this)" method="post">
                     <div class="input-group">
                         <span class="input-group-addon">工号tid</span>
                         <input name="tid" type="text" class="form-control" placeholder="工号tid"/>
 
-                        <span class="input-group-addon">密码</span>
-                        <input name="password" type="text" class="form-control" placeholder="待添加密码"/>
-
+                        <!--<span class="input-group-addon">密码</span>-->
+                        <!--<input name="password" type="text" class="form-control" placeholder="待添加密码"/>-->
                         <span class="input-group-addon">姓名</span>
                         <input name="name" type="text" class="form-control" placeholder="待添加姓名"/>
 
@@ -86,6 +90,16 @@
                         <span class="input-group-addon">所在系部</span>
                         <input name="apartment" type="text" class="form-control" placeholder="待添加所在系部"/>
                     </div>
+                    <!--<div class="input-group">-->
+                        <!--<span class="input-group-addon">姓名</span>-->
+                        <!--<input name="name" type="text" class="form-control" placeholder="待添加姓名"/>-->
+    <!---->
+                        <!--<span class="input-group-addon">手机</span>-->
+                        <!--<input name="phone" type="text" class="form-control" placeholder="待添加手机"/>-->
+    <!---->
+                        <!--<span class="input-group-addon">所在系部</span>-->
+                        <!--<input name="apartment" type="text" class="form-control" placeholder="待添加所在系部"/>-->
+                    <!--</div>-->
                     <br />
                     <input class="form-control" type="submit" value="提交"/>
                 </form>

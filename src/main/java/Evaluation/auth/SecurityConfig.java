@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
 //                .and()
 //                .authorizeRequests()
-//                .antMatchers("/admin/**").hasAuthority("admin")//此选中的url要有admin的Authority,todo 验证：注意antMatchers的先后顺序有覆盖作用？
+//                .antMatchers("/admin/**").hasAuthority("admin")//此选中的url要有admin的Authority,
                 .and()
                 .authorizeRequests()
                 .antMatchers("/sign-in.html","/authentication/require","/commentTeacher/test","/session/invalid","/commentTeacher/**","/admin/test/**").permitAll()//antMatchers匹配上的url都不需要认证就可以访问

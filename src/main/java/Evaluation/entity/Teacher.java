@@ -22,11 +22,11 @@ public class Teacher {
     private String phone;
     private String apartment;
 
-    @NotBlank
-    private String password;
-//    private boolean isComment;
-//    private boolean isTeach;
-//
+//    @NotBlank
+//    private String password;
+
+////    private boolean isComment;
+////    private boolean isTeach;
 //    private List<TeachInfo> list=new ArrayList<TeachInfo>();
 
 
@@ -69,12 +69,12 @@ public class Teacher {
     public void setApartment(String apartment) {
         this.apartment = apartment;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 }

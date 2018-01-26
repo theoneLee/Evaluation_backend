@@ -46,7 +46,7 @@ public class TeacherService {
         //System.out.println(temp);
         temp.setName(teacher.getName());
         temp.setPhone(teacher.getPhone());
-        temp.setPassword(teacher.getPassword());
+        //temp.setPassword(teacher.getPassword());
         temp.setApartment(teacher.getApartment());
         teacherDao.save(temp);
     }
