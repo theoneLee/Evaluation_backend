@@ -1,5 +1,7 @@
 package Evaluation.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,7 +18,7 @@ public class TeachInfo {
     private String position;
     private Date date;
 
-    private String teacherName;//授课老师，此要接受一个tid
+    private String tid;//授课老师，此要接受一个tid
     @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.LAZY)
     private List<Comment> commentList=new ArrayList<Comment>();//评分列表，单向一对多
 
@@ -41,15 +43,16 @@ public class TeachInfo {
     }
 
     public void setDate(Date date) {
+
         this.date = date;
     }
 
-    public String getTeacherName() {
-        return teacherName;
+    public String getTid() {
+        return tid;
     }
 
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
+    public void setTid(String tid) {
+        this.tid = tid;
     }
 
     public List<Comment> getCommentList() {

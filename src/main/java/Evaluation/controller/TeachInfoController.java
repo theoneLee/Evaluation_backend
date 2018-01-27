@@ -30,13 +30,13 @@ public class TeachInfoController {
     }
 
     @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.GET)
-    public Response getTeachInfoById(@PathVariable String id){
+    public Response getTeachInfoById(@PathVariable int id){
         TeachInfo info=teachInfoService.getTeachInfoById(id);
         return new Response().success(info);
     }
 
     @RequestMapping(value = "/{id:\\d+}",method = RequestMethod.DELETE)
-    public Response deleteTeachInfoById(@PathVariable String id){
+    public Response deleteTeachInfoById(@PathVariable int id){
         teachInfoService.deleteTeachInfoById(id);
         return new Response().success();
     }
@@ -56,7 +56,7 @@ public class TeachInfoController {
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public Response initData() throws JsonProcessingException {
         TeachInfo teachInfo=new TeachInfo();
-        teachInfo.setTeacherName("test1");
+        teachInfo.setTid("test1");
         teachInfo.setPosition("U111");
         teachInfo.setDate(new Date());
 

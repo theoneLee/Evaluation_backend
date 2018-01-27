@@ -1,11 +1,19 @@
 package Evaluation.service;
 
+import Evaluation.dao.CommentTeacherDao;
 import Evaluation.dao.TeachInfoDao;
 import Evaluation.entity.Comment;
+import Evaluation.entity.CommentTeacher;
 import Evaluation.entity.TeachInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +23,10 @@ import java.util.List;
 public class TeachInfoService {
     @Autowired
     private TeachInfoDao teachInfoDao;
+    @Autowired
+    private CommentTeacherDao commentTeacherDao;
 
+    private Logger logger= LoggerFactory.getLogger(getClass());
 
     public void saveComment(String infoId, Comment comment) {
         //找到该teachInfo,然后往里面加comment
@@ -29,13 +40,13 @@ public class TeachInfoService {
     }
 
 
-    public TeachInfo getTeachInfoById(String id) {
-        return teachInfoDao.findById(Integer.valueOf(id));
+    public TeachInfo getTeachInfoById(int id) {
+        return teachInfoDao.findById(id);
     }
 
 
-    public void deleteTeachInfoById(String id) {
-        teachInfoDao.delete(Integer.valueOf(id));
+    public void deleteTeachInfoById(int id) {
+        teachInfoDao.delete(id);
     }
 
     public void save(TeachInfo teachInfo) {
@@ -44,10 +55,38 @@ public class TeachInfoService {
 
 
     public void update(TeachInfo teachInfo) {
-        TeachInfo temp=teachInfoDao.findById(teachInfo.getId());
-        temp.setTeacherName(teachInfo.getTeacherName());
+        TeachInfo temp=teachInfoDao.findById(teachInfo.getId());//这样更新不会覆盖掉字段List<Comment> commentList，而不是直接teachInfoDao.save(teachInfo);
+        temp.setTid(teachInfo.getTid());
         temp.setCommentList(teachInfo.getCommentList());
         temp.setPosition(teachInfo.getPosition());
+        temp.setDate(teachInfo.getDate());
         teachInfoDao.save(temp);
+    }
+
+
+    public Page<TeachInfo> getAllTeachInfoList(int page) {
+        int size=5;
+        return teachInfoDao.findAll(new PageRequest(page,size));
+    }
+
+    public TeachInfo getTeachInfoWithCommentList(int id) {
+        return teachInfoDao.findWithCommentListById(id);
+    }
+
+    /**
+     * //通过teachInfoId找到teachInfo，通过id找到评课老师，将该teachInfo加入评课老师的teachInfo 队列
+     * @param teachInfoId
+     * @param commentTeacherId
+     */
+    @Transactional
+    public void choiceCommentTeacher(int teachInfoId, int commentTeacherId) {
+        //TeachInfo teachInfo=teachInfoDao.findWithCommentListById(teachInfoId);
+//        TeachInfo teachInfo=teachInfoDao.findById(teachInfoId);
+//        CommentTeacher commentTeacher=commentTeacherDao.findWithTeachInfoListById(commentTeacherId);//
+//        System.out.println("teachInfo："+teachInfo.getId());
+//        System.out.println("commentTeacher:"+commentTeacher.getId());
+        System.out.println("teachInfoId:"+teachInfoId);
+        System.out.println("commentTeacherId:"+commentTeacherId);
+        commentTeacherDao.saveCommentTeacherTeachInfoRelation(commentTeacherId,teachInfoId);
     }
 }

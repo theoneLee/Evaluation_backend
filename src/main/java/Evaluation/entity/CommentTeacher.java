@@ -28,7 +28,7 @@ public class CommentTeacher implements UserDetails{
     @NotBlank
     private String password;
 
-    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.LAZY)
     private List<TeachInfo> list=new ArrayList<TeachInfo>();
 
     public String getTid() {

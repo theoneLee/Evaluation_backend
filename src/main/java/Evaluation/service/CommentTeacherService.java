@@ -56,7 +56,7 @@ public class CommentTeacherService {
         temp.setPhone(teacher.getPhone());
         temp.setApartment(teacher.getApartment());
         temp.setPassword(teacher.getPassword());
-        temp.setList(teacher.getList());//todo 这里假设从http上接收到的teacher能够直接将关联关系也一并反序列化为对象
+        temp.setList(teacher.getList());//这里从http上接收到的teacher能够直接将关联关系也一并反序列化为对象
         commentTeacherDao.save(temp);
     }
 

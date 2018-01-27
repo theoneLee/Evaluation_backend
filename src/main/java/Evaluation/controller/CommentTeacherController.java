@@ -111,19 +111,28 @@ public class CommentTeacherController {
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public Response initData(String tid) throws Exception {
         CommentTeacher teacher=new CommentTeacher();
-        teacher.setName("可使用账号");
+        teacher.setName("带commentList");
         teacher.setPassword(tid);
         teacher.setApartment("aa");
         teacher.setPhone("111");
         teacher.setTid(tid);
 
         List<TeachInfo> list=teacher.getList();
-        for (int i=0;i<3;i++){
+        for (int i=0;i<2;i++){
             TeachInfo info=new TeachInfo();
             info.setPosition("U111");
             info.setDate(new Date());
-            info.setTeacherName("可使用账号");
+            info.setTid(tid);
             //这里先不加teachInfo里面的CommentList，之后要添加或更新数据时要整个数据都拿取，然后不更新的保留id，新增的不添加id (以证明可行)
+//            for (int j=0;j<3;j++){
+//                Comment comment=new Comment();
+//                comment.setCommentTeacherId("lzw0001");
+//                comment.setCourseName("course"+j);
+//                comment.setNum1(j);
+//                comment.setNum2(j);
+//                comment.setNum3(j);
+//                info.getCommentList().add(comment);
+//            }
 
             list.add(info);
         }
