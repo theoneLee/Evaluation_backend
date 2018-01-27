@@ -15,7 +15,7 @@ public interface CommentTeacherDao extends JpaRepository<CommentTeacher,Long>{
     CommentTeacher findByTid(String tid);
 
 
-    @Query("select n from CommentTeacher n left join fetch n.list where n.id=?1")
+    @Query("select n from CommentTeacher n left join fetch n.teachInfoList where n.id=?1")
     CommentTeacher findWithTeachInfoListById(long id);//左外join fetch可以允许n.list为空，如果使用inner join fetch时，右边为空，会导致整体返回为空
 
     /**
@@ -26,6 +26,6 @@ public interface CommentTeacherDao extends JpaRepository<CommentTeacher,Long>{
      * @param teachInfoId
      */
     @Modifying
-    @Query(value = "INSERT INTO comment_teacher_list VALUES(?1, ?2)", nativeQuery = true)
+    @Query(value = "INSERT INTO comment_teacher_teach_info VALUES(?1, ?2)", nativeQuery = true)
     void saveCommentTeacherTeachInfoRelation(int commentTeacherId, int teachInfoId);
 }

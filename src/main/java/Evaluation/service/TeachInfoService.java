@@ -45,7 +45,9 @@ public class TeachInfoService {
     }
 
 
+    @Transactional
     public void deleteTeachInfoById(int id) {
+        teachInfoDao.deleteCommentTeacherTeachInfoRelationByTeachInfo(id);//todo 删除之前先删除中间表的内容，不然删不了，注意这个是多对多关系，所以不应该在删除commentTeacher的时候影响TeachInfo，反之亦然。一对多关系就可以利用级联来处理删除的业务
         teachInfoDao.delete(id);
     }
 

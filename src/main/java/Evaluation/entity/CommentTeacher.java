@@ -28,8 +28,11 @@ public class CommentTeacher implements UserDetails{
     @NotBlank
     private String password;
 
-    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.REMOVE},fetch = FetchType.LAZY)
-    private List<TeachInfo> list=new ArrayList<TeachInfo>();
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST},fetch = FetchType.LAZY)
+    @JoinTable(name = "comment_teacher_teach_info", joinColumns = {
+            @JoinColumn(name = "CommentTeacher_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
+            @JoinColumn(name = "TeachInfo_ID", referencedColumnName = "ID")})
+    private List<TeachInfo> teachInfoList=new ArrayList<TeachInfo>();
 
     public String getTid() {
         return tid;
@@ -103,12 +106,11 @@ public class CommentTeacher implements UserDetails{
         this.id = id;
     }
 
-    public List<TeachInfo> getList() {
-        return list;
+    public List<TeachInfo> getTeachInfoList() {
+        return teachInfoList;
     }
 
-    public void setList(List<TeachInfo> list) {
-        this.list = list;
+    public void setTeachInfoList(List<TeachInfo> teachInfoList) {
+        this.teachInfoList = teachInfoList;
     }
-
 }

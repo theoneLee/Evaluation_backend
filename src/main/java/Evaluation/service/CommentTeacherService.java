@@ -2,6 +2,7 @@ package Evaluation.service;
 
 import Evaluation.auth.MD5Util;
 import Evaluation.dao.CommentTeacherDao;
+import Evaluation.dao.TeachInfoDao;
 import Evaluation.entity.CommentTeacher;
 import Evaluation.entity.TeachInfo;
 import Evaluation.entity.Teacher;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class CommentTeacherService {
     @Autowired
     private CommentTeacherDao commentTeacherDao;
 
+    @Autowired
+    private TeachInfoDao teachInfoDao;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -56,13 +60,13 @@ public class CommentTeacherService {
         temp.setPhone(teacher.getPhone());
         temp.setApartment(teacher.getApartment());
         temp.setPassword(teacher.getPassword());
-        temp.setList(teacher.getList());//这里从http上接收到的teacher能够直接将关联关系也一并反序列化为对象
+        temp.setTeachInfoList(teacher.getTeachInfoList());//这里从http上接收到的teacher能够直接将关联关系也一并反序列化为对象
         commentTeacherDao.save(temp);
     }
 
     public List<TeachInfo> getTeachInfoByCommentTeacherTid(String tid) {
         CommentTeacher teacher=commentTeacherDao.findByTid(tid);
-        return teacher.getList();
+        return teacher.getTeachInfoList();
     }
 
     public CommentTeacher login(String tid,String password) throws Exception {
@@ -99,7 +103,9 @@ public class CommentTeacherService {
         commentTeacherDao.save(temp);//这里保存从数据库找到的teacher，就保留有List<TeachInfo>
     }
 
+    @Transactional
     public void deleteCommentTeacherById(Long id) {
+        teachInfoDao.deleteCommentTeacherTeachInfoRelationByCommentTeacher(id);//删除时要先删除中间表的关系
         commentTeacherDao.delete(id);
     }
 }
