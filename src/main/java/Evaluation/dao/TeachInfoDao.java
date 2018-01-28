@@ -18,6 +18,9 @@ public interface TeachInfoDao extends JpaRepository<TeachInfo,Integer> {
     @Query("select n from TeachInfo n left join fetch n.commentList where n.id=?1")
     TeachInfo findWithCommentListById(Integer id);
 
+    @Query("select n from TeachInfo n left join fetch n.commentList where n.tid=?1")
+    TeachInfo findWithCommentListByTid(String tid);
+
     @Modifying
     @Query(value = "DELETE FROM comment_teacher_teach_info WHERE comment_teacher_id=?1 AND teach_info_id=?2", nativeQuery = true)
     void deleteCommentTeacherTeachInfoRelation(int commentTeacherId, int teachInfoId);

@@ -77,7 +77,7 @@ public class TeachInfoHtmlController {
     public String updateTeachInfo(@Valid TeachInfoWrapper wrapper, BindingResult errors, Model model) throws ParseException {
         if (errors.hasErrors()){
             model.addAttribute("filedError",errors.getAllErrors());
-            return "/admin/updateTeachInfo";
+            return "/admin/updateTeachInfo?id="+wrapper.getId();
         }
 
         String dateString=wrapper.getDate().replace('T',' ');//使用包装类去处理接受的参数，再转化为teachInfo储存
@@ -116,5 +116,19 @@ public class TeachInfoHtmlController {
         //通过teachInfoId找到teachInfo，通过id找到评课老师，将该teachInfo加入评课老师的teachInfo 队列
         teachInfoService.choiceCommentTeacher(teachInfoId,id);
         return "redirect:/admin/allTeachInfo";
+    }
+
+
+    @GetMapping(value = "/admin/seachTeachInfo")
+    public String getTeachInfoByTid(@RequestParam(value = "tid",defaultValue = "-1")String tid, Model model){
+        TeachInfo info=teachInfoService.getTeachInfoWithCommentListByTid(tid);
+
+        if (info==null||info.getCommentList()==null||info.getCommentList().size()==0){
+            model.addAttribute("commentError","该课程评论为空");
+        }else {
+            model.addAttribute("commentList",info.getCommentList());
+        }
+        //model.addAttribute("infoId",id);
+        return "/admin/searchTeachInfo";
     }
 }

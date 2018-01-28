@@ -7,7 +7,7 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
 
-    <title>更新老师</title>
+    <title>添加管理员</title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -32,10 +32,10 @@
         {
             with (thisform)
             {
-                if (validate_required(tid,"tid不能为空")==false)
+                if (validate_required(username,"username不能为空")==false)
                 {name.focus();return false}
-                // if (validate_required(password,"不能为空")==false)
-                // {name.focus();return false}
+                if (validate_required(password,"password不能为空")==false)
+                {name.focus();return false}
             }
         }
     </script>
@@ -47,7 +47,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li><a th:href="@{/admin/allTeacher}">查看老师</a></li>
-                <li class="active"><a href="#">添加老师</a></li>
+                <li><a th:href="@{/admin/addAdmin}">添加老师</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a th:href="@{/admin/allCommentTeacher}">查看评课老师</a></li>
@@ -62,7 +62,7 @@
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a th:href="@{/admin/allAdmin}">查看管理员</a></li>
-                <li><a th:href="@{/admin/addAdmin}">添加管理员</a></li>
+                <li class="active"><a href="#">添加管理员</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a th:href="@{/logout}">注销登陆</a></li>
@@ -70,29 +70,27 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-            <h2 class="sub-header">更新老师</h2>
+            <h2 class="sub-header">添加管理员</h2>
             <div class="table-responsive">
-                <div th:if="${tidError}">
+                <div th:if="${filedError}">
                     <!--若有错误，输出该错误在界面上-->
-                    <p style="color: red" th:text="${tidError}"></p>
+                    <p style="color: red" th:text="${filedError}"></p>
                 </div>
 
-                <form th:action="@{/admin/updateTeacher/post}" onsubmit="return validate_form(this)" method="post">
+                <div th:if="${usernameError}">
+                    <!--若有错误，输出该错误在界面上-->
+                    <p style="color: red" th:text="${usernameError}"></p>
+                </div>
+                <form th:action="@{/admin/addAdmin/post}" onsubmit="return validate_form(this)" method="post">
                     <div class="input-group">
-                        <input name="id" type="hidden" th:value="${teacher.id}"/>
-                        <!--<span class="input-group-addon">工号tid</span>-->
-                        <input name="tid" type="hidden" class="form-control" placeholder="工号tid" th:value="${teacher.tid}"/>
+                        <span class="input-group-addon">管理员用户名</span>
+                        <input name="username" type="text" class="form-control" placeholder="管理员用户名"/>
 
                         <!--<span class="input-group-addon">密码</span>-->
                         <!--<input name="password" type="text" class="form-control" placeholder="待添加密码"/>-->
-                        <span class="input-group-addon">姓名</span>
-                        <input name="name" type="text" class="form-control" placeholder="待添加姓名" th:value="${teacher.name}"/>
+                        <span class="input-group-addon">管理员密码</span>
+                        <input name="password" type="password" class="form-control" placeholder="管理员密码"/>
 
-                        <span class="input-group-addon">手机</span>
-                        <input name="phone" type="text" class="form-control" placeholder="待添加手机" th:value="${teacher.phone}"/>
-
-                        <span class="input-group-addon">所在系部</span>
-                        <input name="apartment" type="text" class="form-control" placeholder="待添加所在系部" th:value="${teacher.apartment}"/>
                     </div>
                     <!--<div class="input-group">-->
                         <!--<span class="input-group-addon">姓名</span>-->

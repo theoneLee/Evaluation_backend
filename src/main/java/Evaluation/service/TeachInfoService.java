@@ -91,4 +91,8 @@ public class TeachInfoService {
         System.out.println("commentTeacherId:"+commentTeacherId);
         commentTeacherDao.saveCommentTeacherTeachInfoRelation(commentTeacherId,teachInfoId);
     }
+
+    public TeachInfo getTeachInfoWithCommentListByTid(String tid) {
+        return teachInfoDao.findWithCommentListByTid(tid);
+    }
 }

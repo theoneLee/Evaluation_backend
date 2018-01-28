@@ -47,13 +47,20 @@
 
 
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h2 class="sub-header">查看教学信息下的评论</h2>
+            <!--<h2 class="sub-header">搜索评课信息</h2>-->
 
             <div th:if="${commentError}">
                 <!--若有错误，输出该错误在界面上-->
                 <p style="color: red" th:text="${commentError}"></p>
             </div>
             <div class="table-responsive">
+                <div class="input-group">
+                    <form th:action="@{/admin/seachTeachInfo}" th:method="get">
+                        <input name="tid" type="text" class="form-control" placeholder="输入要查找的任课老师Tid"/>
+                        <input type="submit" class="btn btn-default" value="搜索"/>
+                    </form>
+                </div><!-- /input-group -->
+                <br/>
                 <div class="table-responsive" th:unless="${commentError}">
                 <table class="table table-striped">
                     <thead>

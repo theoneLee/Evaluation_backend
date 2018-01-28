@@ -62,7 +62,7 @@ public class TeacherHtmlController {
             model.addAttribute("filedError",errors.getAllErrors());
             return "/admin/updateTeacher";
         }
-        System.out.println(getClass()+":"+teacher.getId());
+        //System.out.println(getClass()+":"+teacher.getId());
         teacherService.update(teacher);
         return "redirect:/admin/allTeacher";
     }

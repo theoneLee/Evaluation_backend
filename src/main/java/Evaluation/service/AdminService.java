@@ -3,6 +3,8 @@ package Evaluation.service;
 import Evaluation.dao.AdminDao;
 import Evaluation.entity.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,5 +24,20 @@ public class AdminService {
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         dao.save(admin);
 
+    }
+
+    public Page<Admin> getAllAdminList(int page) {
+        int size=5;
+        return dao.findAll(new PageRequest(page,size));
+    }
+
+    public Admin getAdminById(Integer id) {
+        Admin admin= dao.findOne(id);
+        admin.setPassword("");
+        return admin;
+    }
+
+    public void deleteAdmin(int id) {
+        dao.delete(id);
     }
 }
