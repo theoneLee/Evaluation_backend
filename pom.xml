@@ -108,10 +108,10 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-social</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.session</groupId>-->
+            <!--<artifactId>spring-social</artifactId>-->
+        <!--</dependency>-->
 
 
         <!--commons-fileupload-->
