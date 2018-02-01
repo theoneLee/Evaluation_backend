@@ -66,7 +66,7 @@ public class CommentTeacherController {
      * @param infoId
      * @return
      */
-    @RequestMapping(value = "/comment/{infoId:\\d+}",method = RequestMethod.POST)
+    @RequestMapping(value = "/comment/{infoId:\\d+}",method = RequestMethod.POST)//todo 正则匹配数字
     public Response saveCommentForTeachInfo(@PathVariable String infoId,@RequestBody Comment comment){
         //checkToken(request,tid,token);todo
         teachInfoService.saveComment(infoId,comment);
@@ -85,14 +85,15 @@ public class CommentTeacherController {
         return new Response().success();
     }
 
-    @RequestMapping(value = "/{tid:\\d+}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{tid:\\w+}",method = RequestMethod.DELETE)//todo 正则表达式匹配\w 即匹配字母、数字、下划线。等价于'[A-Za-z0-9_]'。
     public Response deleteCommentTeacher(@PathVariable String tid){
         commentTeacherService.deleteCommentTeacher(tid);//删除该对象要顺便把CommentTeacher的TeachInfoList也删除，使用级联即可
         return new Response().success();
     }
 
-    @RequestMapping(value = "/{tid:\\d+}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{tid:\\w+}",method = RequestMethod.GET)
     public Response getCommentTeacherByTid(@PathVariable String tid){
+        logger.info(tid);
         CommentTeacher teacher=commentTeacherService.getCommentTeacherByTid(tid);
         return new Response().success(teacher);
     }
@@ -102,7 +103,7 @@ public class CommentTeacherController {
      * @param teacher
      * @return
      */
-    @RequestMapping(value = "/{tid:\\d+}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{tid:\\w+}",method = RequestMethod.PUT)
     public Response updateCommentTeacher(@RequestBody CommentTeacher teacher){
         commentTeacherService.updateCommentTeacherByTid(teacher);
         return new Response().success();

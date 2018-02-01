@@ -1,5 +1,6 @@
 package Evaluation.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -106,6 +107,7 @@ public class CommentTeacher implements UserDetails{
         this.id = id;
     }
 
+    @JsonBackReference
     public List<TeachInfo> getTeachInfoList() {
         return teachInfoList;
     }
