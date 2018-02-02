@@ -6,6 +6,8 @@ import Evaluation.dao.TeachInfoDao;
 import Evaluation.entity.CommentTeacher;
 import Evaluation.entity.TeachInfo;
 import Evaluation.entity.Teacher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,8 @@ public class CommentTeacherService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private Logger logger= LoggerFactory.getLogger(getClass());
+
     public void saveCommentTeacher(CommentTeacher teacher) throws Exception {
         //todo 在controller中转化json为对象时可以直接把关联关系也建立么？
 //        if (teacher.getList()!=null){
@@ -49,7 +53,8 @@ public class CommentTeacherService {
 
     public CommentTeacher getCommentTeacherByTid(String tid) {
         CommentTeacher teacher=commentTeacherDao.findByTid(tid);
-        System.out.println(teacher);
+        teacher.setPassword(null);
+        logger.info("CommentTeacher",teacher);
         return teacher;
     }
 
@@ -78,7 +83,7 @@ public class CommentTeacherService {
         if (!passwordEncoder.matches(password,temp.getPassword())){//自己手动验证密码，不能使用equals方法来判断，因为加密方式时sha256+salt，使用equals一定是失败的
             throw new Exception("密码错误");
         }
-        temp.setPassword("");
+        temp.setPassword(null);
         return temp;
     }
 
