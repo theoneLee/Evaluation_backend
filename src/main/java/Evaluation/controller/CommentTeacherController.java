@@ -13,10 +13,12 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -36,6 +38,8 @@ import java.util.UUID;
 public class CommentTeacherController {
 
     @Autowired
+    private HttpSession session;
+    @Autowired
     private CommentTeacherService commentTeacherService;
 
     @Autowired
@@ -43,15 +47,20 @@ public class CommentTeacherController {
     private Logger logger= LoggerFactory.getLogger(getClass());
 
     @RequestMapping(value = "/teachInfo",method = RequestMethod.GET)
-    public Response getTeachInfoByCommentTeacherTid(HttpServletRequest request,String tid,String token) throws Exception {
+    public Response getTeachInfoByCommentTeacherTid( String tid,String token) throws Exception {
         //评课教师获取他的待评课列表
-        checkToken(request,tid,token);
+        checkToken(tid,token);
         List<TeachInfo> list=commentTeacherService.getTeachInfoByCommentTeacherTid(tid);
         return new Response().success(list);
     }
 
-    private void checkToken(HttpServletRequest request, String tid, String token) throws Exception {
-        String res= (String) request.getSession().getAttribute(tid);
+    private void checkToken(  String tid, String token) throws Exception {
+
+//        logger.info("checkToken_Tid",tid);
+//        logger.info("checkToken_Token",token);
+        System.out.println("checkToken_Token:"+token);
+        String res= (String) session.getAttribute(tid);
+        System.out.println("real_Token:"+res);
         if (res==null){
             throw new Exception("session不含该tid，请重新登陆");
         }
@@ -182,17 +191,20 @@ public class CommentTeacherController {
 
     //登录注销
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public Response login(HttpServletRequest request,String tid, String password) throws Exception {
+    public Response login(  String tid, String password) throws Exception {
         CommentTeacher commentTeacher=commentTeacherService.login(tid,password);//这里返回一个包含tid和token，之后app访问api需要认证该token
         LoginWrapper wrapper=new LoginWrapper();
         wrapper.setTid(commentTeacher.getTid());
-        wrapper.setToken(UUID.randomUUID().toString());
-        request.getSession().setAttribute(tid,wrapper.getToken());
+        wrapper.setToken(UUID.randomUUID().toString().replace('-','_'));
+        session.setAttribute(tid,wrapper.getToken());
+//        logger.info("session:",session.getAttributeNames().hasMoreElements());
         return new Response().success(wrapper);
     }
     @RequestMapping(value = "/logout",method = RequestMethod.POST)
-    public Response logout(HttpServletRequest request,String tid) {
-        request.getSession().removeAttribute(tid);
+    public Response logout( String tid) {
+        session.removeAttribute(tid);
+        logger.info("session:",session.getAttribute(tid));
+        System.out.println(session.getAttributeNames().hasMoreElements());
         return new Response().success("退出成功");
     }
 

@@ -52,6 +52,7 @@ public class TeachInfo {
         this.date = date;
     }
 
+    @JsonBackReference
     public List<CommentTeacher> getCommentTeacherList() {
         return commentTeacherList;
     }
