@@ -76,7 +76,7 @@ public class CommentTeacherController {
      * @return
      */
     @RequestMapping(value = "/comment/{infoId:\\d+}",method = RequestMethod.POST)//todo 正则匹配数字
-    public Response saveCommentForTeachInfo(@PathVariable String infoId,@RequestBody Comment comment){
+    public Response saveCommentForTeachInfo(@PathVariable String infoId,Comment comment){
         //checkToken(request,tid,token);todo
         teachInfoService.saveComment(infoId,comment);
         return new Response().success();
@@ -187,7 +187,6 @@ public class CommentTeacherController {
         return new Response().success("http://localhost:8080/audio/" + file.getOriginalFilename());
     }
 
-    //todo 需不需要单独修改CommentTeacher里面的TeachInfo？目前解决方案是直接使用update方法做一次整体覆盖
 
     //登录注销
     @RequestMapping(value = "/login",method = RequestMethod.POST)
