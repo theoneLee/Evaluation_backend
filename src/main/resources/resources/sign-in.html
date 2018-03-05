@@ -1,14 +1,73 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>登陆</title>-->
+<!--</head>-->
+<!--<body>-->
+    <!--<form action="/authentication/form" method="post">-->
+        <!--用户名：<input name="username" type="text" value="1111">-->
+        <!--密码：<input name="password" type="password" value="1111">-->
+        <!--<input type="submit">-->
+    <!--</form>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>登陆</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>Login</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="/css/signin.css" rel="stylesheet"/>
+
+
+    <script type="text/javascript">
+
+        function validate_required(field,alerttxt)
+        {
+            with (field)
+            {
+                if (value==null||value=="")
+                {alert(alerttxt);return false}
+                else {return true}
+            }
+        }
+
+        function validate_form(thisform)
+        {
+            with (thisform)
+            {
+                if (validate_required(name,"用户名不能为空")==false)
+                {name.focus();return false}
+                if (validate_required(password,"密码不能为空")==false)
+                {name.focus();return false}
+            }
+        }
+    </script>
 </head>
+
 <body>
-    <form action="/authentication/form" method="post">
-        用户名：<input name="username" type="text" value="1111">
-        密码：<input name="password" type="password" value="1111">
-        <input type="submit">
+
+<div class="container">
+    <!--拿到request的参数（如：/login?error）是存在时就显示这个p标签-->
+    <form class="form-signin" role="form" action="/authentication/form" onsubmit="return validate_form(this)" method="post">
+        <h2 class="form-signin-heading">管理员登陆</h2>
+        <input type="text" name="username" class="form-control" placeholder="UserName"/>
+        <input type="password" name="password" class="form-control" placeholder="Password"/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
+
+</div> <!-- /container -->
+
 </body>
 </html>
